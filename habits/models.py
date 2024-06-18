@@ -34,6 +34,7 @@ class Habit(models.Model):
     is_public = models.BooleanField(default=False, verbose_name='Признак публичности')
 
     class Meta:
+        ordering = ['-time']
         verbose_name = 'Привычка'
         verbose_name_plural = 'Привычки'
 
