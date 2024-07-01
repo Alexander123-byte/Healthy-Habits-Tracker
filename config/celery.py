@@ -1,6 +1,8 @@
 import os
-
 from celery import Celery
+
+from config import settings
+from habits.tasks import register_tasks
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
@@ -8,4 +10,11 @@ app = Celery('config')
 
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
-app.autodiscover_tasks()
+app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
+
+register_tasks(app)
+
+
+@app.task(bind=True)
+def debug_task(self):
+    print(f'Request: {self.request!r}')

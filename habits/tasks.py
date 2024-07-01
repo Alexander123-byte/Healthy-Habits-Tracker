@@ -27,3 +27,7 @@ def task_send_reminder():
         else:
             habit.time = time_now + timedelta(days=7)
         habit.save()
+
+
+def register_tasks(app):
+    app.tasks.register(task_send_reminder)
